@@ -1,9 +1,10 @@
-import { LightningElement, track,api } from 'lwc';
+import { LightningElement, track,api,wire } from 'lwc';
 import { createRecord } from 'lightning/uiRecordApi';
 import TODO_OBJECT from "@salesforce/schema/Todo_List__c";
 import NAME_FIELD from "@salesforce/schema/Todo_List__c.name";
 import ACCOUNTID_FIELD from "@salesforce/schema/Todo_List__c.Account__c";
 import getTask from "@salesforce/apex/getToDoRecord.getTask";
+import { getRelatedListRecords } from 'lightning/uiRelatedListApi';
 
 export default class ToDoApp extends LightningElement {
 
@@ -14,6 +15,25 @@ export default class ToDoApp extends LightningElement {
     index;
     @api recordId;
     taskExists;
+
+    error;
+    todoRecords;
+    @wire(getRelatedListRecords, {
+        parentRecordId: '$recordId',
+        relatedListId: 'Todo_List__c',
+        fields: ['Todo_List__c.Id','Todo_List__c.Name']
+        
+        
+    })listInfo({ error, data }) {
+        if (data) {
+            this.todoRecords = data.records;
+            this.error = undefined;
+        } else if (error) {
+            this.error = error;
+            this.todoRecords = undefined;
+        }
+        console.log(`Wire invoked with error ${JSON.stringify(this.error)} and records ${JSON.stringify(this.todoRecords)}`);
+    }
 
     onChangeHandler(event) {
 

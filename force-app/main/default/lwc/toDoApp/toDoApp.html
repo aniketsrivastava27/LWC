@@ -21,9 +21,9 @@
             </lightning-layout-item>
         </lightning-layout>
         <ul>
-            <template for:each={listOfTasks} for:item="tsk">
-                <li class="slds-item" key={tsk}>
-                    <lightning-input type="checkbox" value={tsk} label={tsk} class="slds-p-left_small"
+            <template for:each={todoRecords} for:item="rec">
+                <li class="slds-item" key={rec.fields.Name.value}>
+                    <lightning-input type="checkbox" value={rec.fields.Name.value} label={rec.fields.Name.value} class="slds-p-left_small"
                         onchange={addSelectedHandler}>
                     </lightning-input>
                 </li>
