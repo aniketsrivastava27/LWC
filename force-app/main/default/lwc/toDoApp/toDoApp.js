@@ -20,7 +20,7 @@ export default class ToDoApp extends LightningElement {
     todoRecords;
     @wire(getRelatedListRecords, {
         parentRecordId: '$recordId',
-        relatedListId: 'Todo_List__c',
+        relatedListId: 'Todo_List__r',
         fields: ['Todo_List__c.Id','Todo_List__c.Name']
         
         
