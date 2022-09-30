@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="To Do App Parent Child">
+        <lightning-layout>
+            <lightning-layout-item>
+                <lightning-input class="myCustomClass slds-p-left_small slds-p-bottom_medium" type="text"
+                    placeholder="Enter tasks here..." label="Enter tasks" variant="label-hidden"
+                    onchange={onChangeHandler} data-name="task"></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item>
+                <lightning-button label="Add tasks" onclick={addTasksHandler} class="slds-p-around_small"
+                    variant="brand"></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item>
+                <lightning-button label="Reset" onclick={resetTasksHandler} variant="brand" class="slds-p-right_small">
+                </lightning-button>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item>
+                <lightning-button label="Delete task" onclick={deleteTasksHandler} variant="brand"></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <c-to-do-child onselected={selectTaskHandler} list-of-tasks={listOfTasks}></c-to-do-child>
+    </lightning-card>
+</template>

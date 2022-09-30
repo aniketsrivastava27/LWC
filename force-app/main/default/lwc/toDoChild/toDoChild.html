@@ -1,0 +1,12 @@
+<template>
+
+    <ul>
+        <template for:each={listOfTasks} for:item="tsk">
+            <li class="slds-item" key={tsk}>
+                <lightning-input type="checkbox" value={tsk} label={tsk} class="slds-p-left_small"
+                    onchange={addSelectedHandler}>
+                </lightning-input>
+            </li>
+        </template>
+    </ul>
+</template>

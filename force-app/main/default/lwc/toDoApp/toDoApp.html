@@ -1,0 +1,33 @@
+<template>
+    <lightning-card title="To Do App">
+        <lightning-layout>
+            <lightning-layout-item>
+                <lightning-input class="myCustomClass slds-p-left_small slds-p-bottom_medium" type="text"
+                    placeholder="Enter tasks here..." label="Enter tasks" variant="label-hidden"
+                    onchange={onChangeHandler} data-name="task"></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item>
+                <lightning-button label="Add" onclick={addTasksHandler} class="slds-p-around_small"
+                    variant="brand"></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item>
+                <lightning-button label="Reset" onclick={resetTasksHandler} variant="brand" class="slds-p-right_small">
+                </lightning-button>
+            </lightning-layout-item>
+
+
+            <lightning-layout-item>
+                <lightning-button label="Delete" onclick={deleteTasksHandler} variant="brand"></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <ul>
+            <template for:each={listOfTasks} for:item="tsk">
+                <li class="slds-item" key={tsk}>
+                    <lightning-input type="checkbox" value={tsk} label={tsk} class="slds-p-left_small"
+                        onchange={addSelectedHandler}>
+                    </lightning-input>
+                </li>
+            </template>
+        </ul>
+    </lightning-card>
+</template>
