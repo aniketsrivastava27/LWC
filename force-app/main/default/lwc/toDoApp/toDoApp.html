@@ -7,8 +7,9 @@
                     onchange={onChangeHandler} data-name="task"></lightning-input>
             </lightning-layout-item>
             <lightning-layout-item>
-                <lightning-button label="Add" onclick={addTasksHandler} class="slds-p-around_small"
-                    variant="brand"></lightning-button>
+                <lightning-button label="Add" onclick={addTasksHandler} class="slds-p-around_small" variant="brand">
+                </lightning-button>
+
             </lightning-layout-item>
             <lightning-layout-item>
                 <lightning-button label="Reset" onclick={resetTasksHandler} variant="brand" class="slds-p-right_small">
@@ -21,11 +22,25 @@
             </lightning-layout-item>
         </lightning-layout>
         <ul>
-            <template for:each={todoRecords} for:item="rec">
-                <li class="slds-item" key={rec.fields.Name.value}>
-                    <lightning-input type="checkbox" value={rec.fields.Name.value} label={rec.fields.Name.value} class="slds-p-left_small"
-                        onchange={addSelectedHandler}>
-                    </lightning-input>
+            <template for:each={clonedToRecords} for:item="rec">
+                <li class="slds-item" key={rec.fields.Id.value}>
+                    <lightning-layout>
+                        <lightning-layout-item size="6">
+                            <lightning-input type="checkbox" value={rec.fields.Name.value} label={rec.fields.Name.value}
+                                class="slds-p-left_small" onchange={addSelectedHandler}>
+                            </lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6">
+                            <template if:true={rec.fields.isCompleted__c.value}>
+                                <lightning-icon icon-name="utility:success" alternative-text="Success!"
+                                    variant="success" title="Completed" size="xx-small"></lightning-icon>
+                            </template>
+                            <template if:false={rec.fields.isCompleted__c.value}>
+                                <lightning-icon icon-name="utility:warning" alternative-text="Warning!"
+                                    variant="warning" title="In Progress" size="xx-small"></lightning-icon>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
                 </li>
             </template>
         </ul>
