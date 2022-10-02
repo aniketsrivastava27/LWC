@@ -7,6 +7,7 @@ import getTask from "@salesforce/apex/getToDoRecord.getTask";
 import { getRelatedListRecords } from 'lightning/uiRelatedListApi';
 import deleteRecords from "@salesforce/apex/deleteAllRecords.deleteRecords";
 import deleteSelectedRecords from "@salesforce/apex/deleteSelectedItems.deleteSelectedRecords";
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class ToDoApp extends LightningElement {
 
@@ -69,11 +70,28 @@ export default class ToDoApp extends LightningElement {
 
         });*/
 
-        if (this.task != null && !this.listOfTasks.includes(this.task))
+        //if (this.task != null && !this.listOfTasks.includes(this.task))
+        if (this.task != null){
+            this.recordExists = this.clonedToRecords.filter((item) => this.task == item.fields.Name.value && item.fields.isCompleted__c.value == false);
+            console.log(`Record Exisit :: ${JSON.stringify(this.recordExists)}`);
+            if(this.recordExists.length>0)
+            {
+                const evt = new ShowToastEvent({
+                    title: "Error",
+                    message: "Task alreay added. Please complete it first!!",
+                    variant: "error",
+                });
+                this.dispatchEvent(evt);
+                this.template.querySelector('lightning-input[data-name="task"]').value = null;
+                return;
+            }
             this.listOfTasks.push(this.task);
+        }
+            
         this.template.querySelector('lightning-input[data-name="task"]').value = null;
+        
         this.task = null;
-       // console.log(this.listOfTasks);
+        console.log(`List of tasks: ${this.listOfTasks}`);
        /* const fields = {};
         fields[NAME_FIELD.fieldApiName] = this.listOfTasks[this.listOfTasks.length-1];
         fields[ACCOUNTID_FIELD.fieldApiName] = this.recordId;
@@ -97,7 +115,7 @@ export default class ToDoApp extends LightningElement {
             "fields": {
               "Id": {
                 "displayValue": null,
-                "value": "a035i000004ZD1yAAG"
+                "value": Math.random()
               },
               "Name": {
                 "displayValue": null,
