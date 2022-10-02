@@ -6,7 +6,7 @@ import ACCOUNTID_FIELD from "@salesforce/schema/Todo_List__c.Account__c";
 import getTask from "@salesforce/apex/getToDoRecord.getTask";
 import { getRelatedListRecords } from 'lightning/uiRelatedListApi';
 import deleteRecords from "@salesforce/apex/deleteAllRecords.deleteRecords";
-//import JigsawContactId from '@salesforce/schema/Contact.JigsawContactId';
+import deleteSelectedRecords from "@salesforce/apex/deleteSelectedItems.deleteSelectedRecords";
 
 export default class ToDoApp extends LightningElement {
 
@@ -172,10 +172,24 @@ export default class ToDoApp extends LightningElement {
 
     }
     deleteTasksHandler(){
-        console.log('Selected Task:'+ this.selectedTasks + 'List of task:' + this.listOfTasks);
-        this.listOfTasks = this.listOfTasks.filter((item) => !this.selectedTasks.includes(item));
+        console.log('Selected Task:'+ this.selectedTasks);
+        console.log(`Records before deleting ::  ${JSON.stringify(this.clonedToRecords)}`);
+       // this.listOfTasks = this.listOfTasks.filter((item) => !this.selectedTasks.includes(item));
+       try{ 
+       this.clonedToRecords = this.clonedToRecords.filter((item) => !this.selectedTasks.includes(item.fields.Name.value) );
+       }
+       catch(error){
+        console.log(`Error while deleting ::  ${error.message}`);
+      }
         
-        console.log(this.listOfTasks);
+        console.log(`Remaining records ::  ${JSON.stringify(this.clonedToRecords)}`);
+        deleteSelectedRecords({todoNames:this.selectedTasks})
+        .then((result) => {
+            console.log("Records Deleted Successfully");
+        })
+        .catch((error) => {
+            console.log("Error deleting record");
+        });
     }
 
 
