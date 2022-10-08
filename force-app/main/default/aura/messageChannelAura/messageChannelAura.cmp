@@ -1,0 +1,9 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+    <aura:attribute name="recordValue" type="String"/>
+    <lightning:messageChannel type="messageDemo__c"
+            onMessage="{!c.handleChanged}" scope="APPLICATION"/>
+    
+    <lightning:card title="Aura Comp">
+        <lightning:formattedText value="{!v.recordValue}" />
+    </lightning:card>
+</aura:component>	

@@ -8,6 +8,14 @@ import { getRelatedListRecords } from 'lightning/uiRelatedListApi';
 import deleteRecords from "@salesforce/apex/deleteAllRecords.deleteRecords";
 import deleteSelectedRecords from "@salesforce/apex/deleteSelectedItems.deleteSelectedRecords";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import messageDemo from "@salesforce/messageChannel/messageDemo__c";
+import {
+    MessageContext,
+    publish,
+    subscribe,
+    unsubscribe,
+    APPLICATION_SCOPE
+  } from "lightning/messageService";
 
 export default class ToDoApp extends LightningElement {
 
@@ -23,6 +31,7 @@ export default class ToDoApp extends LightningElement {
     error;
     @track todoRecords = [];
     @track clonedToRecords = [];
+    @wire(MessageContext) msgContext;
     @wire(getRelatedListRecords, {
         parentRecordId: '$recordId',
         relatedListId: 'Todo_List__r',
@@ -73,7 +82,7 @@ export default class ToDoApp extends LightningElement {
         //if (this.task != null && !this.listOfTasks.includes(this.task))
         if (this.task != null){
             this.recordExists = this.clonedToRecords.filter((item) => this.task == item.fields.Name.value && item.fields.isCompleted__c.value == false);
-            console.log(`Record Exisit :: ${JSON.stringify(this.recordExists)}`);
+            console.log(`Record Exist :: ${JSON.stringify(this.recordExists)}`);
             if(this.recordExists.length>0)
             {
                 const evt = new ShowToastEvent({
@@ -89,7 +98,10 @@ export default class ToDoApp extends LightningElement {
         }
             
         this.template.querySelector('lightning-input[data-name="task"]').value = null;
-        
+        const messagePayLoad={
+            message : this.task
+        };
+        publish(this.msgContext,messageDemo,messagePayLoad);//Publisshing message to messageChannel to picked up by Aura component
         this.task = null;
         console.log(`List of tasks: ${this.listOfTasks}`);
        /* const fields = {};
@@ -159,6 +171,8 @@ export default class ToDoApp extends LightningElement {
         }).catch(error=>{
             console.log('Error inserting record:'+JSON.stringify(error));
         })
+        
+        
     
 
     }
