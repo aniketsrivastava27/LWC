@@ -1,9 +1,13 @@
 <aura:component implements="flexipage:availableForAllPageTypes">
     <aura:attribute name="recordValue" type="String"/>
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <lightning:navigation aura:id="navService"/>
+    <aura:attribute name="pageReference" type="Object"/>
     <lightning:messageChannel type="messageDemo__c"
             onMessage="{!c.handleChanged}" scope="APPLICATION"/>
     
     <lightning:card title="Aura Comp">
         <lightning:formattedText value="{!v.recordValue}" />
+        <lightning:button label="Navigate" onclick="{!c.handleClick}"/>
     </lightning:card>
 </aura:component>	

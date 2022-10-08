@@ -101,7 +101,7 @@ export default class ToDoApp extends LightningElement {
         const messagePayLoad={
             message : this.task
         };
-        publish(this.msgContext,messageDemo,messagePayLoad);//Publisshing message to messageChannel to picked up by Aura component
+        //publish(this.msgContext,messageDemo,messagePayLoad);//Publisshing message to messageChannel to picked up by Aura component
         this.task = null;
         console.log(`List of tasks: ${this.listOfTasks}`);
        /* const fields = {};
@@ -173,7 +173,7 @@ export default class ToDoApp extends LightningElement {
         })
         
         
-    
+        publish(this.msgContext,messageDemo,messagePayLoad);//Publisshing message to messageChannel to picked up by Aura component
 
     }
     resetTasksHandler() {
